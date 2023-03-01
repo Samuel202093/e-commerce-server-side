@@ -121,9 +121,15 @@ exports.verifyCustomer= async(req, res)=>{
 
 exports.loginCustomer = async(req, res)=>{
   const { email, password } = req.body
-
   const user = await Customer.findOne({ email: email})
-  if (user) {
+  const adminOutput = {email: admin.name}
+
+  if (req.body.email === admin.name && req.body.password === admin.password)  {
+    console.log(adminOutput);
+    res.status(205).send(adminOutput)
+  }
+
+  else if (user) {
     const validPassword = await bcrypt.compare(password, user.password)
     if (validPassword) {
      return res.status(200).send(user)
@@ -132,6 +138,21 @@ exports.loginCustomer = async(req, res)=>{
   else{
     res.status(400).send({error: 'user does not exist'})
   }
+}
+
+exports.getCustomers = async(req, res)=>{
+  try {
+    const customer = await Customer.find({})
+    if (!customer) {
+        res.status(400).send({message:error.message || "Error getting products from database"})
+    }
+    else{
+        res.status(200).send(customer)
+    }
+
+} catch (error) {
+    res.status(500).send({message:error.message || "Server Error"}) 
+}
 }
 
 // exports.loginCustomer = async(req, res)=>{

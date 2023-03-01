@@ -1,6 +1,12 @@
 const jwt = require('jsonwebtoken')
 const cookie = require('cookie-parser')
 const Customer = require('../models/customer')
+const dotenv = require('dotenv').config()
+
+const admin = {
+    name:process.env.ADMIN_NAME,
+    password: process.env.ADMIN_PASSWORD
+  }
 
 
 const loginrequired = async(req, res, next)=>{
@@ -26,8 +32,14 @@ const loginrequired = async(req, res, next)=>{
 const verifyEmail = async(req, res, next)=>{
     try {
         const user = await Customer.findOne({email: req.body.email})
-        if(user.isVerified){
-            res.status(201).send('Customer is verified')
+        const adminOutput = {email: admin.name}
+
+        if (req.body.email === admin.name && req.body.password === admin.password) {
+            console.log(adminOutput);
+          return  res.status(203).send(adminOutput)
+        }
+        else if(user.isVerified){
+          return  res.status(200).send(user)
             next()
         }
     } catch (error) {

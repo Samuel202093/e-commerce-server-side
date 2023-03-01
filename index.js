@@ -9,6 +9,8 @@ const products = require('./product')
 
 const routes = require('./routes/index')
 const stripeRoute = require('./routes/stripe')
+// const { raw } = require('express')
+// const { raw } = require('express')
 
 const app = express()
 
@@ -20,7 +22,25 @@ connection()
 // middlewares for Api calls
 app.use(cors())
 app.use(cookieparser())
-app.use(bodyParser.json())
+
+app.use((req, res, next)=>{
+    if (req.originalUrl === '/webhook') {
+        next()
+    }else{
+        express.json()(req, res, next)
+    }
+  })
+
+// app.use(express.json())
+// app.use(express.json({verify: (req, res, buf)=>{
+//     if (req.originalUrl === '/webhook') {
+//         req.rawBody = buf.toString()
+//     } 
+// }}))
+
+// app.use(bodyParser.json())
+
+
 
 app.use('/', routes)
 app.use('/', stripeRoute)

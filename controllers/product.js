@@ -42,6 +42,21 @@ exports.getAllProducts = async(req, res)=>{
     }
 }
 
+// exports.getSelectedProduct = async(req, res)=>{
+//     try {
+//         let result = []
+//         const product = await Product.find({})
+//         if (product) {
+//             product.filter(()=>{
+
+//             })
+//         }
+
+//     } catch (error) {
+        
+//     }
+// }
+
 // Getting a single product
 exports.getProduct = async(req, res)=>{
     try {
@@ -62,7 +77,7 @@ exports.getProduct = async(req, res)=>{
 
 exports.deleteProduct = async(req, res)=>{
     try {
-        const result = Product.findByIdAndDelete({_id: req.params.id})
+        const result = await Product.findByIdAndDelete({_id: req.params.id})
         if (result) {
             res.status(200).send(result)
         } else {
@@ -73,21 +88,43 @@ exports.deleteProduct = async(req, res)=>{
     }
 }
 
-exports.addToCart = async(req, res)=>{
-    try {
-        
-    } catch (error) {
-        
+// exports.updateProduct = async(req, res)=>{
+//     try{
+//     await Product.findOneAndUpdate(req.params.id, {name:req.body.name, description: req.body.description, price: req.body.price}, (err, data)=>{
+//         res.status(200).send(data)
+//     }
+//     )
+//     }catch(error){
+//         res.status(500).send(error)
+//     }
+// }
+
+exports.updateProduct = (req, res)=>{
+  Product.findOneAndUpdate({_id: req.params.id},{
+    $set:{
+        name: req.body.name,
+        description: req.body.description,
+        price: req.body.price, 
+        category: req.body.category
     }
+  })
+  .then(result =>{
+    res.status(200).send(result)
+  })
+  .catch(err =>{
+    res.status(400).send(err)
+  })
 }
 
-exports.Success = (req, res)=>{
-    try {
-        res.status(200).send("Successfully stripe payment gateway")
-    } catch (error) {
-        res.status(400).send('Error')
-    }
-}
+// exports.updateProduct = async (req, res)=>{
+//     try {
+//         const result = await Product.updateOne({_id: req.params.id}, {$set: req.body})
+//         res.status(200).send(result)
+//     } catch (error) {
+//         res.status(500).send(error)
+//     }
+// }
+
 
 
 
