@@ -125,7 +125,7 @@ exports.loginCustomer = async(req, res)=>{
   const adminOutput = {email: admin.name}
 
   if (req.body.email === admin.name && req.body.password === admin.password)  {
-    console.log(adminOutput);
+    // console.log(adminOutput);
     res.status(205).send(adminOutput)
   }
 

@@ -93,7 +93,8 @@ route.post("/webhook", bodyParser.raw({type: "application/json"}), async(req, re
   //signature verification
   const payload = req.body
   const sig = req.headers['stripe-signature']
-  const endpointSecret = "whsec_b6c338234835fd598d9037e53a9ca5f966a480611f5e13ca2d3a35f399ac8092"
+  // const endpointSecret = "whsec_b6c338234835fd598d9037e53a9ca5f966a480611f5e13ca2d3a35f399ac8092"
+  const endpointSecret = process.env.STRIPE_ENDPOINTSECRET
 
   let event;
   let data;
