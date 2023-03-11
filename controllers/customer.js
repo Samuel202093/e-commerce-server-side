@@ -63,7 +63,7 @@ exports.createCustomer = async(req, res)=>{
           let mailOptions = {
             from: ` "Verify Your Email" <Nayastores@gmail.com`,
             to: user.email,
-            subject: 'Naya Stores -Verify your email',
+            subject: 'Hi-Gadgets -Verify your email',
             html: `<h2>Hello ${user.username}! Thanks for registering on our site </h2>
             <h4> Please verify your email with the link below to continue...</h4>
             <a href ="http://127.0.0.1:5173/verified-email/${user.emailToken}">Verify Your Email </a>
