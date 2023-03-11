@@ -12,7 +12,7 @@ const route = express.Router()
 // customer registration, verification and login Api
 route.post('/customer/register', controller.createCustomer)
 route.post('/customer/login', verifyEmail, controller.loginCustomer)
-route.get('/customer/verify-email', controller.verifyCustomer)
+route.post('/customer/verify-email/:token', controller.verifyCustomer)
 route.get('/customer/login', controller.loginPage)
 route.get('/customers', controller.getCustomers)
 
@@ -26,7 +26,7 @@ route.put('/product/:id', productController.updateProduct)
 
 
  // order Api
-//  route.post('/orders', orderController.createOrders)
+
  route.get('/orders', orderController.getAllOrders)
 
 module.exports = route

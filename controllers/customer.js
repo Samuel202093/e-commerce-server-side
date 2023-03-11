@@ -13,16 +13,12 @@ const admin = {
   password: process.env.ADMIN_PASSWORD
 }
  
-const createToken = (user)=>{
-  const token = jwt.sign({
-    _id: user._id, 
-    name: user.name, 
-    email: user.email}, 
-    process.env.TOKEN_KEY
-    )
-    return token;
-}
 
+const createToken = (_id)=>{
+  const token =  process.env.TOKEN_KEY
+
+  return jwt.sign({_id}, token, {expiresIn: '3d'})
+}
 
 // nodemailer handler
 let transporter = nodemailer.createTransport({
@@ -53,7 +49,7 @@ exports.createCustomer = async(req, res)=>{
           email: email,
           password: password,
           emailToken: crypto.randomBytes(64).toString('hex'), 
-          isVerified: false
+          isVerified: false  
         });
       
         // generate salt to hash password
@@ -70,7 +66,7 @@ exports.createCustomer = async(req, res)=>{
             subject: 'Naya Stores -Verify your email',
             html: `<h2>Hello ${user.username}! Thanks for registering on our site </h2>
             <h4> Please verify your email with the link below to continue...</h4>
-            <a href ="http://${req.headers.host}/customer/verify-email?token=${user.emailToken}">Verify Your Email </a>
+            <a href ="http://127.0.0.1:5173/verified-email/${user.emailToken}">Verify Your Email </a>
             `
           }
 
@@ -89,9 +85,6 @@ exports.createCustomer = async(req, res)=>{
 
         })
 
-        // const token = createToken(newUser)
-
-
         
     } catch (error) {
         res.status(500).send(error)
@@ -102,14 +95,15 @@ exports.createCustomer = async(req, res)=>{
 
 exports.verifyCustomer= async(req, res)=>{
     try {
-        const token = req.query.token
+        const token = req.params.token
         const user = await Customer.findOne({ emailToken: token})
         if (user) {
           user.emailToken = token
           user.isVerified = true
           await user.save()
-          res.status(200).end()
-        }
+
+        res.status(200).end()
+         }
         else{
           res.redirect('/customer/register')
           console.log("email is not verified");
