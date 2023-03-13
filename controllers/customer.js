@@ -149,6 +149,17 @@ exports.getCustomers = async(req, res)=>{
 }
 }
 
+exports.deleteCustomer = async(req, res)=>{
+  try {
+    const result = await Customer.findByIdAndDelete({_id: req.params.id})
+    if (result) {
+      res.status(200).send(result)
+    }
+  } catch (error) {
+    res.status(500).send(error)
+  }
+}
+
 // exports.loginCustomer = async(req, res)=>{
 //   const {email, password} = req.body
 //   const user = await Customer.findOne({ email: email })

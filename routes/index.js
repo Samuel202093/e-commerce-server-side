@@ -13,6 +13,7 @@ const route = express.Router()
 route.post('/customer/register', controller.createCustomer)
 route.post('/customer/login', verifyEmail, controller.loginCustomer)
 route.post('/customer/verify-email/:token', controller.verifyCustomer)
+route.delete('/customer/:id', controller.deleteCustomer)
 route.get('/customer/login', controller.loginPage)
 route.get('/customers', controller.getCustomers)
 
