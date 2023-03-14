@@ -29,5 +29,6 @@ route.put('/product/:id', productController.updateProduct)
  // order Api
 
  route.get('/orders', orderController.getAllOrders)
+ route.get('/order/:id', orderController.getOrder)
 
 module.exports = route

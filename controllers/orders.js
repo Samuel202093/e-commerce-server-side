@@ -11,3 +11,14 @@ exports.getAllOrders = async(req, res)=>{
 }
 
 
+exports.getOrder = async(req, res)=>{
+    try {
+        const result = Order.findById({_id: req.params.id})
+        if (result) {
+           res.status(200).send(result) 
+        }
+    } catch (error) {
+        res.status(400).send(error)
+    }
+}
+
