@@ -30,5 +30,6 @@ route.put('/product/:id', productController.updateProduct)
 
  route.get('/orders', orderController.getAllOrders)
  route.get('/order/:id', orderController.getOrder)
+ route.delete('/order/:id', orderController.deleteOrder)
 
 module.exports = route
