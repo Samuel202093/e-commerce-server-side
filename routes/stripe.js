@@ -88,7 +88,7 @@ route.post('/create-checkout-session', async (req, res) => {
 
   // server.js
 
-  route.post("/webhook", express.raw({type: "application/json"}), async(req, res)=>{
+  route.post("/webhook", bodyParser.raw({type: "application/json"}), async(req, res)=>{
 
     //signature verification
     const payload = req.body
