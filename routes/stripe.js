@@ -16,7 +16,6 @@ route.post('/create-checkout-session', async (req, res) => {
     const customer = await stripe.customers.create({
       metadata:{
         userEmail: req.body.userEmail,
-        // cart: JSON.stringify(req.body.cartItems.toString())
       }
     })
   const line_items = req.body.cartItems.map((item)=>{
@@ -26,10 +25,7 @@ route.post('/create-checkout-session', async (req, res) => {
         product_data:{
           name: item.name,
           images: [item.imageUrl],
-          // description: item.description,
-          // metadata:{
-          //   id: item._id
-          // }
+          
         },
         unit_amount: item.price * 100,
       },
@@ -64,7 +60,6 @@ route.post('/create-checkout-session', async (req, res) => {
     });
   
     res.status(200).send({url: session.url});
-    // res.status(200).send(session)
   });
 
   //creating the order function
@@ -89,61 +84,11 @@ route.post('/create-checkout-session', async (req, res) => {
 
   // server.js
 
-  // route.post("/webhook", express.raw({type: "application/json"}), async(req, res)=>{
-
-  //   //signature verification
-  //   // const payload = req.body
-  //   const sig = req.headers['stripe-signature']
-  //   const endpointSecret = "whsec_b6c338234835fd598d9037e53a9ca5f966a480611f5e13ca2d3a35f399ac8092"
-  //   // const endpointSecret = process.env.STRIPE_ENDPOINTSECRET
-  
-  //   let data;
-  //   let event;
-
-  //   if (endpointSecret) {
-  //     try {
-  //       event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret)
-  //       console.log("Webhook verified")
-  //     } catch (error) {
-  //       console.log(error.message);
-  //       res.status(400).json({success: false})
-  //       return;
-  //     }
-  //     data = event.data.object
-  //   }else{
-  //     data = req.body.data.object
-  //   }
-  
-  
-  
-  //   data = event.data.object
-  //   console.log(data)
-  
-  //   // Handling Events
-  
-  //   if (event.type === 'checkout.session.completed') {
-  //     stripe.customers.retrieve(data.customer)
-  //     .then((customer)=>{
-  //       stripe.checkout.sessions.listLineItems(data.id, {}, (err, lineItems)=>{
-  //         console.log("lineItems:", lineItems)
-  //         createOrder(customer, data, lineItems)
-  //       })
-      
-  //     })
-  //     .catch((err)=> console.log(err.message))
-  //   }
-   
-  //   res.json({success: true})
-  
-  // })
-  
-
 route.post("/webhook", bodyParser.raw({type: "application/json"}), async(req, res)=>{
 
   //signature verification
   const payload = req.body
   const sig = req.headers['stripe-signature']
-  // const endpointSecret = "whsec_b6c338234835fd598d9037e53a9ca5f966a480611f5e13ca2d3a35f399ac8092"
   const endpointSecret = process.env.STRIPE_ENDPOINTSECRET
 
   let event;
@@ -158,14 +103,12 @@ route.post("/webhook", bodyParser.raw({type: "application/json"}), async(req, re
   }
 
   data = event.data.object
-  // console.log(data)
 
   // Handling Events 
   if (event.type === 'checkout.session.completed') {
     stripe.customers.retrieve(data.customer)
     .then((customer)=>{
       stripe.checkout.sessions.listLineItems(data.id, {}, (err, lineItems)=>{
-        console.log(lineItems)
         createOrder(customer, data, lineItems)
       })
     

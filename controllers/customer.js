@@ -160,39 +160,6 @@ exports.deleteCustomer = async(req, res)=>{
   }
 }
 
-// exports.loginCustomer = async(req, res)=>{
-//   const {email, password} = req.body
-//   const user = await Customer.findOne({ email: email })
-//   console.log(user);
-//   // if(user.isVerified === false){
-//   //   res.status(300)
-//   // }
-
-//   if ((email == admin.email && password == admin.password)) {
-
-//     res.status(205).send('Welcome to the Admin Page')
-
-//   } else if (user) {
-//      // check user password with hashed password stored in the database
-
-//      const validPassword = await bcrypt.compare(password, user.password);
-//       console.log(2);
-//      if (validPassword) {
-//       console.log(1);
-//       // const token = createToken(user.emailToken)
-//       // console.log(token);
-//       // res.cookie('access-token', token)
-//         res.status(200).json(user);
-       
-//      } else {
-//        res.status(400).json({ error: "email or Password is not correct" });
-//      }
-
-//   } else {
-//     res.status(401).json({ error: "User does not exist" })
-//   }
-// }
-
 exports.loginPage = async(req, res)=>{
   try {
     
