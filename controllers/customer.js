@@ -66,7 +66,7 @@ exports.createCustomer = async(req, res)=>{
             subject: 'Hi-Gadgets -Verify your email',
             html: `<h2>Hello ${user.username}! Thanks for registering on our site </h2>
             <h4> Please verify your email with the link below to continue...</h4>
-            <a href ="https://hi-gadget-3d16b.web.app/verified-email/${user.emailToken}">Verify Your Email </a>
+            <a href ="http://127.0.0.1:5173/verified-email/${user.emailToken}">Verify Your Email </a>
             `
           }
 
