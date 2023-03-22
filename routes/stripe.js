@@ -55,8 +55,8 @@ route.post('/create-checkout-session', async (req, res) => {
       customer:customer.id,  
       line_items,
       mode: 'payment',
-      success_url: `${process.env.CLIENT_URL}/checkout-success`,
-      cancel_url: `${process.env.CLIENT_URL}/cart`,
+      success_url: `https://hi-gadget-3d16b.web.app/checkout-success`,
+      cancel_url: `https://hi-gadget-3d16b.web.app/cart`,
     });
   
     res.status(200).send({url: session.url});
