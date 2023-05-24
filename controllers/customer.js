@@ -1,5 +1,6 @@
 const Customer = require("../models/customer")
 const userVerify = require('../models/userVerify')
+const Subscribe = require("../models/subscribe")
 const dotenv = require('dotenv').config()
 const jwt = require("jsonwebtoken")
 const bcrypt = require('bcrypt')
@@ -167,6 +168,42 @@ exports.loginPage = async(req, res)=>{
     
   } catch (error) {
     res.status(500)
+  }
+}
+
+exports.subscribe = async(req, res)=>{
+  try {
+    if (!(req.body.email)) {
+      return res.status(400).send({ error: "Data not formatted properly" });
+    }
+    const subscriber = new Subscribe({
+      email: req.body.email
+    })
+
+    let mailOptions = {
+      from: ` "Verify Your Email" <Nayastores@gmail.com`,
+      to: req.body.email,
+      subject: 'Hi-Gadgets - Newsletter',
+      html: `<h2>Hello!! Thanks for subscribing to our Newsletter</h2>
+      <h4>There will be daily, weekly, monthly updates on our recent products and reviews of customers that purchased our products</h4>
+      `
+    }
+
+    transporter.sendMail(mailOptions, (error, info)=>{
+      if(error){
+        console.log(error);
+      }
+      else{
+        console.log('Verification email is sent to your email account');
+      }
+    })
+    const newSubscriber = subscriber.save()
+    newSubscriber.then((data)=>{
+      res.status(200).send(data)
+    })
+  
+  } catch (error) {
+    res.status(500).send({error:error.message || "server error"})
   }
 }
 
