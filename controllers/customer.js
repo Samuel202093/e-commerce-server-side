@@ -181,7 +181,7 @@ exports.subscribe = async(req, res)=>{
     })
 
     let mailOptions = {
-      from: ` "Verify Your Email" <Nayastores@gmail.com`,
+      from: ` "Hi-gadget Newsletter Email Subscription" <Nayastores@gmail.com`,
       to: req.body.email,
       subject: 'Hi-Gadgets - Newsletter',
       html: `<h2>Hello!! Thanks for subscribing to our Newsletter</h2>
