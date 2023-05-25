@@ -176,6 +176,10 @@ exports.subscribe = async(req, res)=>{
     if (!(req.body.email)) {
       return res.status(400).send({ error: "Data not formatted properly" });
     }
+    const checkSubscriber = await Subscribe.findOne({email:req.body.email})
+    if (checkSubscriber) {
+      return res.status(203).send("subscribed to our newsletter previously")
+    }
     const subscriber = new Subscribe({
       email: req.body.email
     })
